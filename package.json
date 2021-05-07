@@ -1,0 +1,36 @@
+{
+  "name": "gofish-api",
+  "version": "0.1",
+  "description": "A REST API to accept reports from GoFish client and serve them over the GoFish supervisor web app",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheZackMatthews/GoFish-API.git"
+  },
+  "keywords": [
+    "GoFish",
+    "REST-API"
+  ],
+  "author": "Zack Matthews, Saban Yavasca, Antti Molsa, Kimberly Innes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheZackMatthews/GoFish-API/issues"
+  },
+  "homepage": "https://github.com/TheZackMatthews/GoFish-API#readme"
+}
