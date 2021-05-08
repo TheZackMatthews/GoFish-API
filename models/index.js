@@ -2,7 +2,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('GoFish', 'postgres', '5432', {
-  host: 'localhost',
+  host: 'gofish.cjz2iriyd5i6.us-east-2.rds.amazonaws.com',
   dialect: 'postgres',
   logging: false,
   pool: {

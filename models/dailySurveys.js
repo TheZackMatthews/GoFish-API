@@ -1,7 +1,5 @@
-const { Sequelize } = require('sequelize');
-const sequelize = require('../index.js');
-
-const { DataTypes } = Sequelize.DataTypes;
+const DataTypes = require('sequelize/lib/data-types');
+const sequelize = require('./index.js');
 
 const allSurveys = sequelize.define('dailySurveys', {
   date: {
