@@ -21,75 +21,75 @@ const allSurveys = sequelizeConnection.define('dailySurveys', {
     type: DataTypes.TEXT(),
   },
   coho: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   chinook: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   chum: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   pink: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   sockeye: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   unknown: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   coho_carcass: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   chinook_carcass: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   chum_carcass: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   pink_carcass: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   sockeye_carcass: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   unknown_carcass: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   coho_redd: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   chinook_redd: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   chum_redd: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   pink_redd: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   sockeye_redd: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
   unknown_redd: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
 });

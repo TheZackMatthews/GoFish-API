@@ -1,10 +1,16 @@
 /* eslint-disable no-console */
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
+
+require('dotenv').config();
 
 const { DataTypes } = Sequelize;
 
-const sequelizeConnection = new Sequelize('GoFish', 'postgres', '5432', {
-  host: 'gofish.cjz2iriyd5i6.us-east-2.rds.amazonaws.com',
+const dbName = process.env.DBNAME;
+const dbUser = process.env.DBUSER;
+const dbConnectPort = process.env.DBCONNECTPORT;
+
+const sequelizeConnection = new Sequelize(dbName, dbUser, dbConnectPort, {
+  host: process.env.DBCONNECTIONURL,
   dialect: 'postgres',
   logging: false,
   pool: {
@@ -30,4 +36,4 @@ const db = {
   DataTypes,
 };
 
-module.exports = db;
+export default db;
