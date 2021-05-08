@@ -16,3 +16,5 @@ app.listen(port, host, () => {
   // eslint-disable-next-line no-console
   console.log(`Server listening on http://${host}:${port}`);
 });
+
+// gofish.cjz2iriyd5i6.us-east-2.rds.amazonaws.com:5432
