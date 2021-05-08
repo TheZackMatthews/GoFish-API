@@ -1,10 +1,13 @@
-const { Sequelize } = require('sequelize');
-const sequelize = require('./index.js');
-
-const { DataTypes } = Sequelize.DataTypes;
+const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
 const survey = require('./survey');
 
-const newVolunteers = sequelize.define('newVolunteers', {
+const newVolunteers = sequelizeConnection.define('newVolunteers', {
+  volunteersId: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false,
+    primaryKey: true,
+  },
   creek_name: {
     type: DataTypes.STRING(40),
     allowNull: false,
@@ -40,10 +43,13 @@ const newVolunteers = sequelize.define('newVolunteers', {
   },
 });
 
-// TODO need to figure out how to push a survey to this specific instance of volunteers
-newVolunteers.hasMany(survey, { as: 'surveys' });
+newVolunteers.hasMany(survey, {
+  foreignKey: 'volunteersId',
+  as: 'surveys',
+});
 
 // Create table if it does not exist currently
-sequelize.sync({ force: true });
+// FIXME "force: true" empties our table each time we run the server
+sequelizeConnection.sync({ force: true });
 
 module.exports = newVolunteers;

@@ -1,7 +1,13 @@
-const DataTypes = require('sequelize/lib/data-types');
-const sequelize = require('./index.js');
+const Sequelize = require('sequelize');
+const { sequelizeConnection, DataTypes } = require('./index.js');
 
-const allSurveys = sequelize.define('dailySurveys', {
+const allSurveys = sequelizeConnection.define('dailySurveys', {
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false,
+    primaryKey: true,
+  },
   date: {
     type: DataTypes.DATE(),
     allowNull: false,

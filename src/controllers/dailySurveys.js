@@ -1,6 +1,6 @@
 const allSurveys = require('../models/dailySurveys');
 
-async function getSurveys(req, res) {
+async function getDailySurveys(req, res) {
   try {
     const reports = await allSurveys.findAll();
     res.status(200).json(reports);
@@ -12,5 +12,5 @@ async function getSurveys(req, res) {
 }
 
 module.exports = {
-  getSurveys,
+  getDailySurveys,
 };
