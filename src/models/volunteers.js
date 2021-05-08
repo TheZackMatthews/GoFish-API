@@ -1,4 +1,4 @@
-const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
+const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js').default;
 const survey = require('./survey');
 
 const newVolunteers = sequelizeConnection.define('newVolunteers', {
