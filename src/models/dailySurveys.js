@@ -10,7 +10,7 @@ const allSurveys = sequelizeConnection.define('dailySurveys', {
   },
   date: {
     type: DataTypes.DATE(),
-    allowNull: false,
+    defaultValue: Date.now(),
   },
   individual_survey_comments: {
     type: DataTypes.ARRAY(

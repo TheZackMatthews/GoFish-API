@@ -29,6 +29,7 @@ async function saveSurvey(req, res) {
       fish_count: newSurvey.fish_count,
       image_url: newSurvey.image_url,
       comments: newSurvey.comments,
+      volunteersId: id,
     });
     // update the value in dailySurveys
     const isSaved = updateDailySurveys(
@@ -36,6 +37,7 @@ async function saveSurvey(req, res) {
       newSurvey.fish_status,
       newSurvey.fish_species,
       newSurvey.fish_count,
+      newSurvey.comments,
     );
     if (isSaved) res.status(201).json({ id: newSurvey.id });
 

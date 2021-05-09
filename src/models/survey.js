@@ -28,7 +28,7 @@ const newSurvey = sequelizeConnection.define('newSurvey', {
     type: DataTypes.INTEGER(),
     defaultValue: 0,
     validate: {
-      isIn: [['redd', 'carcass', 'live']],
+      min: 0,
     },
   },
   image_url: {
