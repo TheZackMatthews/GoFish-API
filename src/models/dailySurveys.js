@@ -92,6 +92,7 @@ const allSurveys = sequelizeConnection.define('dailySurveys', {
     type: DataTypes.INTEGER(),
     defaultValue: 0,
   },
+  // NOTE: volunteers.js provides a foreign key "volunteersId"
 });
 
 module.exports = allSurveys;

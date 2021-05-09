@@ -17,8 +17,10 @@ async function getSurveys(req, res) {
   }
 }
 
+// Recieve a new survey, save it both as a single instance and update the value of dailySurveys
 async function saveSurvey(req, res) {
   const newSurvey = req.body.survey;
+  const { id } = req.body.volunteersId;
   try {
     survey.create({
       location: newSurvey.location,
@@ -29,10 +31,16 @@ async function saveSurvey(req, res) {
       comments: newSurvey.comments,
     });
     // update the value in dailySurveys
-    updateDailySurveys(newSurvey.fish_status, newSurvey.fish_species, newSurvey.fish_count);
-    res.status(201).json({
-      id: newSurvey.id,
-    });
+    const isSaved = updateDailySurveys(
+      id,
+      newSurvey.fish_status,
+      newSurvey.fish_species,
+      newSurvey.fish_count,
+    );
+    if (isSaved) res.status(201).json({ id: newSurvey.id });
+
+    // If we were unable to save this report as a part of dailySurveys, return "Not Implemented"
+    res.sendStatus(501);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('saveSurvey failed:', err);
