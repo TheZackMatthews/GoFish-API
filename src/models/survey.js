@@ -25,8 +25,11 @@ const newSurvey = sequelizeConnection.define('newSurvey', {
     },
   },
   fish_count: {
-    type: DataTypes.INTEGER(), // redd, carcass, or live
+    type: DataTypes.INTEGER(),
     defaultValue: 0,
+    validate: {
+      isIn: [['redd', 'carcass', 'live']],
+    },
   },
   image_url: {
     type: DataTypes.STRING(40), // FIXME How long should this be?
@@ -35,6 +38,7 @@ const newSurvey = sequelizeConnection.define('newSurvey', {
   comments: {
     type: DataTypes.TEXT(),
   },
+  // NOTE: volunteers.js provides a foreign key "volunteersId"
 });
 
 module.exports = newSurvey;
