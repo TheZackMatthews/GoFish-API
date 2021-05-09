@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { sequelizeConnection, DataTypes } = require('./index.js').default;
+const { sequelizeConnection, DataTypes } = require('./index.js');
 
 const allSurveys = sequelizeConnection.define('dailySurveys', {
   id: {

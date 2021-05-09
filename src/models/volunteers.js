@@ -1,5 +1,6 @@
-const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js').default;
+const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
 const survey = require('./survey');
+const dailySurveys = require('./dailySurveys');
 
 const newVolunteers = sequelizeConnection.define('newVolunteers', {
   volunteersId: {
@@ -48,6 +49,10 @@ newVolunteers.hasMany(survey, {
   as: 'surveys',
 });
 
+newVolunteers.hasOne(dailySurveys, {
+  foreignKey: 'volunteersId',
+  as: 'daily_surveys',
+});
 // Create table if it does not exist currently
 // FIXME "force: true" empties our table each time we run the server
 sequelizeConnection.sync({ force: true });
