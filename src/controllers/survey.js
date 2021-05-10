@@ -1,7 +1,6 @@
 const survey = require('../models/survey');
-const { updateDailySurveys } = require('./dailySurveys');
 // Provice volunteersId and get all matching surveys
-async function getSurveys(req, res) {
+async function getSurveysByVolunteersID(req, res) {
   const id = req.body.volunteersId;
   try {
     const allSurveys = await survey.findAll({
@@ -31,18 +30,21 @@ async function saveSurvey(req, res) {
       comments: newSurvey.comments,
       volunteersId: id,
     });
+    res.status(201).json({ id: newSurvey.id });
+    // Outdated! Keeping this section only if we can't query for that data ----------------------
     // update the value in dailySurveys
-    const isSaved = updateDailySurveys(
-      id,
-      newSurvey.fish_status,
-      newSurvey.fish_species,
-      newSurvey.fish_count,
-      newSurvey.comments,
-    );
-    if (isSaved) res.status(201).json({ id: newSurvey.id });
+    // const isSaved = updateDailySurveys(
+    //   id,
+    //   newSurvey.fish_status,
+    //   newSurvey.fish_species,
+    //   newSurvey.fish_count,
+    //   newSurvey.comments,
+    // );
+    // if (isSaved) res.status(201).json({ id: newSurvey.id });
 
-    // If we were unable to save this report as a part of dailySurveys, return "Not Implemented"
-    res.sendStatus(501);
+    // // If we were unable to save this report as a part of dailySurveys, return "Not Implemented"
+    // res.sendStatus(501);
+    // ---------------------------------
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('saveSurvey failed:', err);
@@ -51,6 +53,6 @@ async function saveSurvey(req, res) {
 }
 
 module.exports = {
-  getSurveys,
+  getSurveysByVolunteersID,
   saveSurvey,
 };
