@@ -10,12 +10,12 @@ router.get('/', getRoot); // TODO Delete this
 
 // NOTE This might be a post request down the line if we require user have certain credentials
 // Get all surveys a group of fieldworkers submitted in a given session
-router.get('/getAllSurveys', );
+// router.get('/getAllSurveys', );
 
 // NOTE This might be a post request down the line if we require user have certain credentials
 router.get('/getAllVolunteers', getVolunteers);
 
-// NOTE If a user logged out, and then back in, it would currently create two seperate volunteerIds.
+// NOTE If a user logged out and then back in, it would currently create two seperate volunteerIds.
 router.post('./saveVolunteers', saveVolunteers);
 
 // Save an individual survey
