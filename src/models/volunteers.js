@@ -46,11 +46,12 @@ const newVolunteers = sequelizeConnection.define('newVolunteers', {
   },
 });
 
-newVolunteers.hasMany(survey, {
-  foreignKey: 'volunteersId',
-  as: 'surveys',
-});
-
+newVolunteers.associate = () => {
+  newVolunteers.hasMany(survey, {
+    foreignKey: 'volunteersId',
+    as: 'surveys',
+  });
+};
 // Create table if it does not exist currently
 // FIXME "force: true" empties our table each time we run the server
 sequelizeConnection.sync({ force: true });

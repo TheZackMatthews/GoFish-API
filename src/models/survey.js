@@ -1,4 +1,5 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
+const volunteers = require('./volunteers');
 
 const newSurvey = sequelizeConnection.define('newSurvey', {
   id: {
@@ -41,4 +42,7 @@ const newSurvey = sequelizeConnection.define('newSurvey', {
   // NOTE: volunteers.js provides a foreign key "volunteersId"
 });
 
+newSurvey.associate = () => {
+  newSurvey.belongsTo(volunteers, { foreignKey: 'volunteersId' });
+};
 module.exports = newSurvey;
