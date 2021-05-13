@@ -1,7 +1,7 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
 const survey = require('./survey');
 
-const newVolunteers = sequelizeConnection.define('newVolunteers', {
+const volunteers = sequelizeConnection.define('volunteers', {
   volunteersId: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -24,7 +24,7 @@ const newVolunteers = sequelizeConnection.define('newVolunteers', {
   },
   started_at: {
     type: DataTypes.DATE(),
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
   ended_at: {
     type: DataTypes.DATE(),
@@ -47,8 +47,8 @@ const newVolunteers = sequelizeConnection.define('newVolunteers', {
 // any value to adding start location? could be useful for
 // the front end at least
 
-newVolunteers.associate = () => {
-  newVolunteers.hasMany(survey, {
+volunteers.associate = () => {
+  volunteers.hasMany(survey, {
     foreignKey: 'volunteersId',
     as: 'surveys',
   });
@@ -57,4 +57,4 @@ newVolunteers.associate = () => {
 // FIXME "force: true" empties our table each time we run the server
 sequelizeConnection.sync();
 
-module.exports = newVolunteers;
+module.exports = volunteers;

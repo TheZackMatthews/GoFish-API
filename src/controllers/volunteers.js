@@ -1,8 +1,8 @@
-const volunteers = require('../models/volunteers');
+const volunteerModel = require('../models/volunteers');
 
 async function getVolunteers(req, res) {
   try {
-    const reports = await volunteers.findAll();
+    const reports = await volunteerModel.findAll();
     res.status(200).json(reports);
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -12,16 +12,16 @@ async function getVolunteers(req, res) {
 }
 
 async function saveVolunteers(req, res) {
-  const newVolunteers = req.body;
+  const volunteers = req.body;
   try {
-    let result = await volunteers.create({
-      creek_name: newVolunteers.creekName,
-      team_lead: newVolunteers.teamLead,
-      team_members: newVolunteers.teamMembers,
+    const result = await volunteerModel.create({
+      creek_name: volunteers.creekName,
+      team_lead: volunteers.teamLead,
+      team_members: volunteers.teamMembers,
     });
     res.status(201).json({
       volunteersId: result.volunteersId,
-      startedAt: result.started_at,  
+      startedAt: result.started_at,
     });
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -29,7 +29,30 @@ async function saveVolunteers(req, res) {
     res.sendStatus(500);
   }
 }
+
+async function updateVolunteers(req, res) {
+  const volunteersInfo = {
+    ended_at: Date.now(),
+    distance_walked: req.body.distanceWalked,
+    water_condition: req.body.waterCondition,
+    view_condition: req.body.viewCondition,
+    day_end_comments: req.body.dayEndComments,
+  };
+  await volunteerModel.update(volunteersInfo, {
+    where: {
+      volunteersId: req.body.volunteersId,
+    },
+  })
+    .then(res.sendStatus(200))
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      res.sendStatus(500);
+    });
+}
+
 module.exports = {
   getVolunteers,
   saveVolunteers,
+  updateVolunteers,
 };

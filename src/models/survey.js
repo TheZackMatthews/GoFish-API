@@ -1,7 +1,7 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
-const volunteers = require('./volunteers');
+const volunteerModel = require('./volunteers');
 
-const newSurvey = sequelizeConnection.define('newSurvey', {
+const survey = sequelizeConnection.define('survey', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -12,18 +12,12 @@ const newSurvey = sequelizeConnection.define('newSurvey', {
     type: DataTypes.JSON(),
   },
   fish_status: {
-    type: DataTypes.STRING(7), // redd, carcass, or live
+    type: DataTypes.ENUM(['redd', 'carcass', 'live']),
     allowNull: false,
-    validate: {
-      isIn: [['redd', 'carcass', 'live']],
-    },
   },
   fish_species: {
-    type: DataTypes.STRING(40),
+    type: DataTypes.ENUM(['coho', 'chinook', 'chum', 'pink', 'sockeye', 'trout', 'kokanee', 'unknown']),
     allowNull: false,
-    validate: {
-      isIn: [['coho', 'chinook', 'chum', 'pink', 'sockeye', 'unknown']],
-    },
   },
   fish_count: {
     type: DataTypes.INTEGER(),
@@ -33,7 +27,7 @@ const newSurvey = sequelizeConnection.define('newSurvey', {
     },
   },
   image_url: {
-    type: DataTypes.STRING(40), // FIXME How long should this be?
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
   comments: {
@@ -42,7 +36,7 @@ const newSurvey = sequelizeConnection.define('newSurvey', {
   // NOTE: volunteers.js provides a foreign key "volunteersId"
 });
 
-newSurvey.associate = () => {
-  newSurvey.belongsTo(volunteers, { foreignKey: 'volunteersId' });
+survey.associate = () => {
+  survey.belongsTo(volunteerModel, { foreignKey: 'volunteersId' });
 };
-module.exports = newSurvey;
+module.exports = survey;
