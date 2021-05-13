@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getVolunteers, saveVolunteers } = require('./controllers/volunteers');
+const { updateVolunteers, getVolunteers, saveVolunteers } = require('./controllers/volunteers');
 const { getSurveysByVolunteersID, saveSurvey } = require('./controllers/survey');
 
 function getRoot(req, res) { // TODO Delete this
@@ -18,7 +18,7 @@ router.get('/getAllVolunteers', getVolunteers);
 // NOTE If a user logged out and then back in, it would currently create two seperate volunteerIds.
 router.post('/saveVolunteers', saveVolunteers);
 
-// TODO router.put('/saveVolunteers')
+router.put('/saveVolunteers', updateVolunteers);
 // Save an individual survey
 router.post('/saveSurvey', saveSurvey);
 
