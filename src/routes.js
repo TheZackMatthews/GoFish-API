@@ -16,8 +16,9 @@ router.get('/', getRoot); // TODO Delete this
 router.get('/getAllVolunteers', getVolunteers);
 
 // NOTE If a user logged out and then back in, it would currently create two seperate volunteerIds.
-router.post('./saveVolunteers', saveVolunteers);
+router.post('/saveVolunteers', saveVolunteers);
 
+// TODO router.put('/saveVolunteers')
 // Save an individual survey
 router.post('/saveSurvey', saveSurvey);
 

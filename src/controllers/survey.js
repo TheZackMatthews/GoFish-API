@@ -5,7 +5,7 @@ async function getSurveysByVolunteersID(req, res) {
   try {
     const allSurveys = await survey.findAll({
       where: {
-        volunteerId: id,
+        volunteersId: id,
       },
     });
     res.status(200).json(allSurveys);

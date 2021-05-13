@@ -12,19 +12,16 @@ async function getVolunteers(req, res) {
 }
 
 async function saveVolunteers(req, res) {
-  const newVolunteers = req.body.volunteers;
+  const newVolunteers = req.body;
   try {
-    volunteers.create({
-      creek_name: newVolunteers.creek_name,
-      team_lead: newVolunteers.team_lead,
-      team_members: newVolunteers.team_members,
-      ended_at: newVolunteers.ended_at,
-      distance_walked: newVolunteers.distance_walked,
-      water_condition: newVolunteers.water_condition,
-      view_condition: newVolunteers.view_condition,
+    let result = await volunteers.create({
+      creek_name: newVolunteers.creekName,
+      team_lead: newVolunteers.teamLead,
+      team_members: newVolunteers.teamMembers,
     });
     res.status(201).json({
-      volunteersId: newVolunteers.id,
+      volunteersId: result.volunteersId,
+      startedAt: result.started_at,  
     });
   } catch (err) {
     // eslint-disable-next-line no-console
