@@ -24,7 +24,7 @@ const newVolunteers = sequelizeConnection.define('newVolunteers', {
   },
   started_at: {
     type: DataTypes.DATE(),
-    default: new Date(),
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
   },
   ended_at: {
     type: DataTypes.DATE(),
@@ -35,16 +35,17 @@ const newVolunteers = sequelizeConnection.define('newVolunteers', {
   },
   water_condition: {
     type: DataTypes.INTEGER(),
-    allowNull: false,
   },
   view_condition: {
     type: DataTypes.INTEGER(),
-    allowNull: false,
   },
   day_end_comments: {
     type: DataTypes.TEXT(),
   },
 });
+
+// any value to adding start location? could be useful for
+// the front end at least
 
 newVolunteers.associate = () => {
   newVolunteers.hasMany(survey, {
@@ -54,6 +55,6 @@ newVolunteers.associate = () => {
 };
 // Create table if it does not exist currently
 // FIXME "force: true" empties our table each time we run the server
-sequelizeConnection.sync({ force: true });
+sequelizeConnection.sync();
 
 module.exports = newVolunteers;
