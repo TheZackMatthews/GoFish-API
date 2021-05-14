@@ -18,7 +18,9 @@ router.get('/getAllVolunteers', getVolunteers);
 // NOTE If a user logged out and then back in, it would currently create two seperate volunteerIds.
 router.post('/saveVolunteers', saveVolunteers);
 
+// Save visibility info and day end comment
 router.put('/saveVolunteers', updateVolunteers);
+
 // Save an individual survey
 router.post('/saveSurvey', saveSurvey);
 
