@@ -13,6 +13,7 @@ async function getVolunteers(req, res) {
 
 async function saveVolunteers(req, res) {
   const newVolunteers = req.body;
+  console.log(req.body)
   try {
     let result = await volunteers.create({
       creek_name: newVolunteers.creekName,
