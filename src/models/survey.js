@@ -33,7 +33,6 @@ const survey = sequelizeConnection.define('survey', {
   comments: {
     type: DataTypes.TEXT(),
   },
-  // NOTE: volunteers.js provides a foreign key "volunteersId"
 });
 
 survey.associate = () => {
