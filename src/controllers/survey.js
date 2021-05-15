@@ -12,7 +12,7 @@ async function getSurveysByVolunteersID(req, res) {
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('getSurveys failed:', err);
-    res.sendStatus(500);
+    res.json(500);
   }
 }
 
@@ -21,7 +21,7 @@ async function saveSurvey(req, res) {
   const newSurvey = req.body.survey;
   const { id } = req.body.volunteersId;
   try {
-    survey.create({
+    await survey.create({
       location: newSurvey.location,
       fish_status: newSurvey.fish_status,
       fish_species: newSurvey.fish_species,
