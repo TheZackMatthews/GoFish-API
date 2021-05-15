@@ -1,5 +1,6 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
 const volunteerModel = require('./volunteers');
+const photo = require('./photo');
 
 const survey = sequelizeConnection.define('survey', {
   id: {
@@ -37,5 +38,11 @@ const survey = sequelizeConnection.define('survey', {
 
 survey.associate = () => {
   survey.belongsTo(volunteerModel, { foreignKey: 'volunteersId' });
+};
+survey.associate = () => {
+  survey.hasMany(photo, {
+    foreignKey: 'id',
+    as: 'photos',
+  });
 };
 module.exports = survey;
