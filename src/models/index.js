@@ -16,7 +16,7 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbConnectPort, {
   pool: {
     max: 20,
     min: 0,
-    acquire: 20000, // Error if conncection takes more than 20 seconds
+    acquire: 20000,
     // idle: 600000, // Allow a connection of 10 minutes maximum, and then force them to reconnect
   },
 });

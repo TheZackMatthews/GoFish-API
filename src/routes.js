@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { updateVolunteers, getVolunteers, saveVolunteers } = require('./controllers/volunteers');
 const { getAllSurveys, getSurveysByVolunteersID, saveSurvey } = require('./controllers/survey');
+const { savePhoto, getPhotos, getPhotosByCategory } = require('./controllers/photo');
 
 function getRoot(req, res) { // TODO Delete this
   res.status(200);
@@ -27,6 +28,13 @@ router.post('/saveSurvey', saveSurvey);
 // Provide a volunteerId and get all the surveys they submitted
 router.post('/getSurveys', getSurveysByVolunteersID);
 
-// TODO need a route that provides a dailySurvey day_end_comments
+// Save an image during a survey submission
+router.post('/savePhoto', savePhoto);
+
+// Get all photos
+router.post('/getPhotos', getPhotos);
+
+// Get photos from category: 'help identifying', 'outreach', or 'other'
+router.post('/getPhotos:category', getPhotosByCategory);
 
 module.exports = router;
