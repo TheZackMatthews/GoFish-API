@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const { updateVolunteers, getVolunteers, saveVolunteers } = require('./controllers/volunteers');
-const { getExportData, getAllSurveys, getSurveysByVolunteersID, saveSurvey } = require('./controllers/survey');
+const {
+  getExportData,
+  getAllSurveys,
+  getSurveysByVolunteersID,
+  saveSurvey,
+} = require('./controllers/survey');
 const { savePhoto, getPhotos, getPhotosByCategory } = require('./controllers/photo');
 
 // NOTE This might be a post request down the line if we require user have certain credentials
@@ -28,7 +33,7 @@ router.post('/getSurveys', getSurveysByVolunteersID);
 router.post('/savePhoto', savePhoto);
 
 // Get all photos
-router.post('/getPhotos', getPhotos);
+router.get('/getPhotos', getPhotos);
 
 // Get photos from category: 'help identifying', 'outreach', or 'other'
 router.post('/getPhotos:category', getPhotosByCategory);

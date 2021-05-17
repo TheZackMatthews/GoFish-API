@@ -1,8 +1,7 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
-const survey = require('./survey');
 
 const volunteers = sequelizeConnection.define('volunteers', {
-  volunteersId: {
+  group_id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
     allowNull: false,
@@ -42,19 +41,25 @@ const volunteers = sequelizeConnection.define('volunteers', {
   day_end_comments: {
     type: DataTypes.TEXT(),
   },
+  flow_type: {
+    type: DataTypes.INTEGER(),
+  },
+  visibility: {
+    type: DataTypes.INTEGER(),
+  },
 });
 
 // any value to adding start location? could be useful for
 // the front end at least
 
 volunteers.associate = () => {
-  volunteers.hasMany(survey, {
-    foreignKey: 'volunteersId',
+  volunteers.hasMany(sequelizeConnection.models.survey, {
+    foreignKey: 'group_id',
     targetKey: 'id',
   });
+  sequelizeConnection.models.survey.belongsTo(volunteers, { foreignKey: 'group_id' });
 };
 // Create table if it does not exist currently
-// FIXME "force: true" empties our table each time we run the server
 sequelizeConnection.sync();
 
 module.exports = volunteers;
