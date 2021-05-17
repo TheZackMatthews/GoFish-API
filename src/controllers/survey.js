@@ -1,24 +1,33 @@
 const { QueryTypes } = require('sequelize');
 const { sequelizeConnection } = require('../models');
 const surveyModel = require('../models/survey');
-const volunteerModel = require('../models/volunteers');
-// 'SELECT fish_species, SUM (fish_count) FROM surveys GROUP BY fish_species'
+
 async function getAllSurveys(req, res) {
-  const ret = {};
+  try {
+    const result = await surveyModel.findAll();
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json();
+  }
+}
+
+async function getExportData(req, res) {
+  const formattedQuery = {};
   sequelizeConnection.query('SELECT fish_species, fish_status, SUM (fish_count) FROM surveys GROUP BY fish_species, fish_status', {
     raw: true,
     type: QueryTypes.SELECT,
   })
-    .then((result) => {
-      result.forEach((survey) => {
+    .then((rawQuery) => {
+      rawQuery.forEach((survey) => {
         const newKey = (survey.fish_status === 'live') ? survey.fish_species : `${survey.fish_species}_${survey.fish_status}`;
-        ret[newKey] = survey.sum;
+        formattedQuery[newKey] = survey.sum;
       });
-      res.status(200).json(ret);
+      res.status(200).json(formattedQuery);
     })
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error('getAllSurveys failed:', err);
+      console.error('getExportData failed:', err);
       res.status(500).json();
     });
 }
@@ -64,6 +73,7 @@ async function saveSurvey(req, res) {
 
 module.exports = {
   getAllSurveys,
+  getExportData,
   getSurveysByVolunteersID,
   saveSurvey,
 };

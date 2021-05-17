@@ -1,16 +1,12 @@
 const router = require('express').Router();
 const { updateVolunteers, getVolunteers, saveVolunteers } = require('./controllers/volunteers');
-const { getAllSurveys, getSurveysByVolunteersID, saveSurvey } = require('./controllers/survey');
+const { getExportData, getAllSurveys, getSurveysByVolunteersID, saveSurvey } = require('./controllers/survey');
 const { savePhoto, getPhotos, getPhotosByCategory } = require('./controllers/photo');
-
-function getRoot(req, res) { // TODO Delete this
-  res.status(200);
-  res.send('hello express');
-}
-router.get('/', getRoot); // TODO Delete this
 
 // NOTE This might be a post request down the line if we require user have certain credentials
 // Get all surveys a group of fieldworkers submitted in a given session
+router.get('/getExportData', getExportData);
+
 router.get('/getAllSurveys', getAllSurveys);
 
 // NOTE This might be a post request down the line if we require user have certain credentials
