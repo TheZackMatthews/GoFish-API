@@ -1,6 +1,7 @@
 const { QueryTypes } = require('sequelize');
 const { sequelizeConnection } = require('../models');
 const surveyModel = require('../models/survey');
+const defaultResponse = require('../assets/defaultResponse.json');
 
 async function getAllSurveys(req, res) {
   try {
@@ -14,7 +15,7 @@ async function getAllSurveys(req, res) {
 }
 
 async function getExportData(req, res) {
-  const formattedQuery = [];
+  const formattedQuery = {};
   sequelizeConnection.query(
     'SELECT surveys.group_id, fish_species, fish_status, SUM (fish_count) FROM surveys GROUP BY surveys.group_id, fish_species, fish_status',
     {
@@ -23,14 +24,20 @@ async function getExportData(req, res) {
     },
   )
     .then((rawQuery) => {
-      const groupId = rawQuery[0].group_id;
-      console.log('🌊', groupId);
-      rawQuery.forEach((survey, i) => {
-        formattedQuery[i] = survey;
-        const newKey = (survey.fish_status === 'live')
+      rawQuery.forEach((survey) => {
+        const surveyKey = (survey.fish_status === 'live')
           ? survey.fish_species
           : `${survey.fish_species}_${survey.fish_status}`;
-        formattedQuery[i][newKey] = survey.sum;
+        // If the groupId is already present, push it to the corresponding array
+        if (formattedQuery[survey.group_id]) {
+          console.log(survey.group_id, surveyKey, survey.sum);
+
+          formattedQuery[survey.group_id][surveyKey] += parseInt(survey.sum, 10);
+        } else {
+          // If the group_id is not present, add it as a key value pair with the current survey
+          formattedQuery[survey.group_id] = { ...defaultResponse };
+          formattedQuery[survey.group_id][surveyKey] = survey.sum;
+        }
       });
       res.status(200).json(formattedQuery);
     })
