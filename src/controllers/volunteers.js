@@ -20,7 +20,7 @@ async function saveVolunteers(req, res) {
       team_members: volunteers.teamMembers,
     });
     res.status(201).json({
-      volunteersId: result.volunteersId,
+      group_id: result.group_id,
       startedAt: result.started_at,
     });
   } catch (err) {
@@ -37,10 +37,12 @@ async function updateVolunteers(req, res) {
     water_condition: req.body.waterCondition,
     view_condition: req.body.viewCondition,
     day_end_comments: req.body.dayEndComments,
+    flow_type: req.body.flowType,
+    visibility: req.body.visibility,
   };
   await volunteerModel.update(volunteersInfo, {
     where: {
-      volunteersId: req.body.volunteersId,
+      group_id: req.body.group_id,
     },
   })
     .then(res.sendStatus(200))

@@ -24,6 +24,9 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbConnectPort, {
 sequelizeConnection.authenticate('')
   .then(() => {
     console.log('Database connected...');
+    Object.values(sequelizeConnection.models).forEach((model) => {
+      if (typeof model.associate === 'function') model.associate();
+    });
     sequelizeConnection.sync({});
   })
   .catch((err) => {
