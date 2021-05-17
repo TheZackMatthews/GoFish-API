@@ -1,5 +1,5 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
-const surveyModel = require('./survey')
+const surveyModel = require('./survey');
 
 const photo = sequelizeConnection.define('photo', {
   id: {

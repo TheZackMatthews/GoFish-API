@@ -8,6 +8,7 @@ async function savePhoto(req, res) {
       image_url: newPhoto.photoURL,
       reason_for_submission: newPhoto.reasonForSubmission,
       comment: newPhoto.comment,
+      id,
     });
     res.status(201).json();
   } catch (err) {
@@ -28,22 +29,23 @@ async function getPhotos(req, res) {
   }
 }
 
-async function getPhotosByCategory(req, res) {}
-  const reasonForSubmission = req
+async function getPhotosByCategory(req, res) {
+  const reasonForSubmission = req.params.category;
   try {
     const categoryPhotos = await photo.findAll({
       where: {
-        reason_for_submission:
-      }
+        reason_for_submission: reasonForSubmission,
+      },
     });
     res.status(200).json(categoryPhotos);
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error('getPhotos failed:', err);
+    console.error('getPhotosByCategory failed:', err);
     res.status(500).json();
   }
-  module.exports = {
-    savePhoto,
-    getPhotos,
-    getPhotosByCategory,
+}
+module.exports = {
+  savePhoto,
+  getPhotos,
+  getPhotosByCategory,
 };
