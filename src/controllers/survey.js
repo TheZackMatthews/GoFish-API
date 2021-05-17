@@ -4,12 +4,17 @@ const surveyModel = require('../models/survey');
 const volunteerModel = require('../models/volunteers');
 // 'SELECT fish_species, SUM (fish_count) FROM surveys GROUP BY fish_species'
 async function getAllSurveys(req, res) {
-  sequelizeConnection.query('SELECT fish_species, SUM (fish_count) FROM surveys GROUP BY fish_species', {
+  const ret = {};
+  sequelizeConnection.query('SELECT fish_species, fish_status, SUM (fish_count) FROM surveys GROUP BY fish_species, fish_status', {
     raw: true,
     type: QueryTypes.SELECT,
   })
     .then((result) => {
-      res.status(200).json(result);
+      result.forEach((survey) => {
+        const newKey = (survey.fish_status === 'live') ? survey.fish_species : `${survey.fish_species}_${survey.fish_status}`;
+        ret[newKey] = survey.sum;
+      });
+      res.status(200).json(ret);
     })
     .catch((err) => {
       // eslint-disable-next-line no-console
