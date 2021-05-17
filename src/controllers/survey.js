@@ -1,16 +1,12 @@
-const sequelize = require('sequelize');
+const { QueryTypes } = require('sequelize');
+const { sequelizeConnection } = require('../models');
 const surveyModel = require('../models/survey');
 const volunteerModel = require('../models/volunteers');
 // 'SELECT fish_species, SUM (fish_count) FROM surveys GROUP BY fish_species'
 async function getAllSurveys(req, res) {
-  await surveyModel.findAll({
-    attributes: [[sequelize.fn('sum', sequelize.col('fish_count')), 'total']],
-    include: [
-      { model: volunteerModel },
-    ],
-    group: ['volunteerModel.volunteersId'],
+  sequelizeConnection.query('SELECT fish_species, SUM (fish_count) FROM surveys GROUP BY fish_species', {
     raw: true,
-    order: sequelize.literal('total DESC'),
+    type: QueryTypes.SELECT,
   })
     .then((result) => {
       res.status(200).json(result);

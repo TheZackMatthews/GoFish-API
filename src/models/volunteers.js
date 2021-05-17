@@ -50,7 +50,7 @@ const volunteers = sequelizeConnection.define('volunteers', {
 volunteers.associate = () => {
   volunteers.hasMany(survey, {
     foreignKey: 'volunteersId',
-    as: 'surveys',
+    targetKey: 'id',
   });
 };
 // Create table if it does not exist currently
