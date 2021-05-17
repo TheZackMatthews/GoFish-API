@@ -24,12 +24,11 @@ const survey = sequelizeConnection.define('survey', {
     type: DataTypes.INTEGER(),
     defaultValue: 0,
     validate: {
-      min: 0,
+      min: 1,
     },
   },
   image_url: {
     type: DataTypes.STRING(255),
-    allowNull: false,
   },
   comments: {
     type: DataTypes.TEXT(),
