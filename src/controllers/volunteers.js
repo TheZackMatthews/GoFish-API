@@ -18,6 +18,7 @@ async function saveVolunteers(req, res) {
       creek_name: volunteers.creekName,
       team_lead: volunteers.teamLead,
       team_members: volunteers.teamMembers,
+      started_at: Date.now(),
     });
     res.status(201).json({
       group_id: result.group_id,
