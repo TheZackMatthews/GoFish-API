@@ -76,7 +76,7 @@ async function saveSurvey(req, res) {
   const { survey } = req.body;
   const id = req.body.group_id;
   try {
-    await surveyModel.create({
+    let result = await surveyModel.create({
       location: survey.location,
       fish_status: survey.fish_status,
       fish_species: survey.fish_species,
@@ -84,11 +84,11 @@ async function saveSurvey(req, res) {
       comments: survey.comments || '',
       group_id: id,
     });
-    res.status(201).json({ id: survey.id });
+    res.status(201).json({ id: result.id });
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('saveSurvey failed:', err);
-    res.sendStatus(500);
+    res.sendStatus(500).json(err.message);
   }
 }
 
