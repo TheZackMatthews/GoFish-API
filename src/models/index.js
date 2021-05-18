@@ -27,7 +27,7 @@ sequelizeConnection.authenticate('')
     Object.values(sequelizeConnection.models).forEach((model) => {
       if (typeof model.associate === 'function') model.associate();
     });
-    sequelizeConnection.sync({});
+    sequelizeConnection.sync();
   })
   .catch((err) => {
     console.error(`Error connecting to db: ${err}`);
