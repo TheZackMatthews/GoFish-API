@@ -47,7 +47,11 @@ const volunteers = sequelizeConnection.define('volunteers', {
   visibility: {
     type: DataTypes.INTEGER(),
   },
-}, { underscored: true });
+}, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  timestamps: true,
+});
 
 // any value to adding start location? could be useful for
 // the front end at least
