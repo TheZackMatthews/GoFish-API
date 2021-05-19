@@ -47,17 +47,17 @@ const volunteers = sequelizeConnection.define('volunteers', {
   visibility: {
     type: DataTypes.INTEGER(),
   },
-});
+}, { underscored: true });
 
 // any value to adding start location? could be useful for
 // the front end at least
 
 volunteers.associate = () => {
+  sequelizeConnection.models.survey.belongsTo(volunteers, { foreignKey: 'group_id' });
   volunteers.hasMany(sequelizeConnection.models.survey, {
     foreignKey: 'group_id',
     targetKey: 'id',
   });
-  sequelizeConnection.models.survey.belongsTo(volunteers, { foreignKey: 'group_id' });
 };
 
 module.exports = volunteers;

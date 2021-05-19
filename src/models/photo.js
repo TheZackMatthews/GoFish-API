@@ -1,6 +1,6 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
 
-const photo = sequelizeConnection.define('photo', {
+const Photo = sequelizeConnection.define('Photo', {
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -18,13 +18,13 @@ const photo = sequelizeConnection.define('photo', {
   comment: {
     type: DataTypes.TEXT(),
   },
-});
+}, { underscored: true });
 
-photo.associate = () => {
-  sequelizeConnection.models.photo.belongsTo(sequelizeConnection.models.survey, { foreignKey: 'group_id' });
-  sequelizeConnection.models.survey.hasMany(sequelizeConnection.models.photo, {
+Photo.associate = () => {
+  sequelizeConnection.models.Photo.belongsTo(sequelizeConnection.models.survey, { foreignKey: 'group_id' });
+  sequelizeConnection.models.survey.hasMany(sequelizeConnection.models.Photo, {
     foreignKey: 'group_id',
     targetKey: 'id',
   });
 };
-module.exports = photo;
+module.exports = Photo;

@@ -27,6 +27,6 @@ const survey = sequelizeConnection.define('survey', {
   comments: {
     type: DataTypes.TEXT(),
   },
-});
+}, { underscored: true });
 
 module.exports = survey;
