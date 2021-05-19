@@ -15,8 +15,7 @@ const survey = sequelizeConnection.define('survey', {
     allowNull: false,
   },
   fish_species: {
-    type: DataTypes.ENUM(['coho', 'chinook', 'chum', 'pink', 'sockeye', 'trout', 'kokanee', 'unknown']),
-    allowNull: true,
+    type: DataTypes.ENUM(['coho', 'chinook', 'chum', 'pink', 'sockeye', 'trout', 'kokanee', 'unknown', null]),
   },
   fish_count: {
     type: DataTypes.INTEGER(),
