@@ -46,11 +46,24 @@ async function getExportData(req, res) {
       newGroup.view_condition = volunteerTable.dataValues.view_condition;
       newGroup.day_end_comments = volunteerTable.dataValues.day_end_comments;
       newGroup.water_condition = volunteerTable.dataValues.water_condition;
-      newGroup.date = volunteerTable.dataValues.createdAt;
-      console.log('🌵', (formattedQuery[individualSurvey.group_id]));
+      newGroup.created_at = volunteerTable.dataValues.created_at.toLocaleDateString(
+        'en-gb',
+        {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        },
+      );
+      newGroup.updated_at = volunteerTable.dataValues.updated_at.toLocaleDateString(
+        'en-gb',
+        {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        },
+      );
     }
   }
-  console.log('🌭', formattedQuery);
   res.status(200).json(Object.values(formattedQuery));
 }
 
