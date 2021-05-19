@@ -8,20 +8,20 @@ This API has been deployed over Heroku, so the first request every 30 minutes ta
 ### Getting data
 - https://gofish-api.herokuapp.com/getExportData
 (GET) Prepares a response from individual survey entries in the format of the Washington State database
+
 - https://gofish-api.herokuapp.com/getAllSurveys
-
 (GET) Sends all the individual survey entries
+
 - https://gofish-api.herokuapp.com/getAllVolunteers
-
 (GET) Sends a list of all the volunteer conditions, including who was present as well as the envionmental conditions
+
 - https://gofish-api.herokuapp.com/getSurveys
-
 (POST) Returns the list of surveys a particular volunteer group entered on one surveying period. Requires group_id
-- https://gofish-api.herokuapp.com/getPhotos
 
-(GET) Get all photos uploaded to our database. Includes reason_for_submission and optional comments
-- https://gofish-api.herokuapp.com/getPhotos:category
+- https://gofish-api.herokuapp.com/getPhotos/id/:id
+(GET) Get all photos uploaded by one surveying group
 
+- https://gofish-api.herokuapp.com/getPhotos/category/:category
 (GET) Get all photos where category is the photo's reason_for_submission. Can be one of 'help identifying', 'outreach', or 'other'
 
 ### Adding data

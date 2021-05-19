@@ -5,14 +5,15 @@ const Volunteer = require('../models/volunteers');
 const defaultResponse = require('../assets/defaultResponse.json');
 
 async function getAllSurveys(req, res) {
-  try {
-    const result = await Survey.findAll();
-    res.status(200).json(result);
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    res.status(500).json();
-  }
+  Survey.findAll()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      res.status(500).json();
+    });
 }
 
 async function getExportData(req, res) {

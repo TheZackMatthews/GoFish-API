@@ -19,12 +19,18 @@ async function savePhoto(req, res) {
 }
 
 async function getPhotos(req, res) {
+  const group_id = req.params.id;
+  console.log(group_id)
   try {
-    const allPhotos = await Photo.findAll();
-    res.status(200).json(allPhotos);
+    const groupPhotos = await Photo.findAll({
+      where: {
+        group_id,
+      },
+    });
+    res.status(200).json(groupPhotos);
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error('getPhotos failed:', err);
+    console.error('getPhotosByCategory failed:', err);
     res.status(500).json();
   }
 }

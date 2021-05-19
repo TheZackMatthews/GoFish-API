@@ -33,7 +33,7 @@ router.post('/getSurveys', getSurveysByVolunteersID);
 router.post('/savePhoto', savePhoto);
 
 // Get all photos
-router.get('/getPhotos', getPhotos);
+router.get('/getPhotos/id/:id', getPhotos);
 
 // Get photos from category: 'help identifying', 'outreach', or 'other'
 router.post('/getPhotos:category', getPhotosByCategory);
