@@ -1,12 +1,12 @@
 const { QueryTypes } = require('sequelize');
 const { sequelizeConnection } = require('../models');
-const surveyModel = require('../models/survey');
-const volunteerModel = require('../models/volunteers');
+const Survey = require('../models/survey');
+const Volunteer = require('../models/volunteers');
 const defaultResponse = require('../assets/defaultResponse.json');
 
 async function getAllSurveys(req, res) {
   try {
-    const result = await surveyModel.findAll();
+    const result = await Survey.findAll();
     res.status(200).json(result);
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -25,20 +25,20 @@ async function getExportData(req, res) {
     },
   );
   // eslint-disable-next-line no-restricted-syntax
-  for (const survey of rawQuery) {
-    const surveyKey = (survey.fish_status === 'live')
-      ? survey.fish_species
-      : `${survey.fish_species}_${survey.fish_status}`;
+  for (const individualSurvey of rawQuery) {
+    const surveyKey = (individualSurvey.fish_status === 'live')
+      ? individualSurvey.fish_species
+      : `${individualSurvey.fish_species}_${individualSurvey.fish_status}`;
     // If the groupId is already present, push it to the corresponding array
-    if (formattedQuery[survey.group_id]) {
-      formattedQuery[survey.group_id][surveyKey] += parseInt(survey.sum, 10);
+    if (formattedQuery[individualSurvey.group_id]) {
+      formattedQuery[individualSurvey.group_id][surveyKey] += parseInt(individualSurvey.sum, 10);
     } else {
       // If the group_id is not present, add it as a key value pair with the current survey
-      formattedQuery[survey.group_id] = { ...defaultResponse };
-      const newGroup = formattedQuery[survey.group_id];
-      newGroup[surveyKey] = parseInt(survey.sum, 10);
-      const volunteerTable = await volunteerModel.findOne({
-        where: { group_id: survey.group_id },
+      formattedQuery[individualSurvey.group_id] = { ...defaultResponse };
+      const newGroup = formattedQuery[individualSurvey.group_id];
+      newGroup[surveyKey] = parseInt(individualSurvey.sum, 10);
+      const volunteerTable = await Volunteer.findOne({
+        where: { group_id: individualSurvey.group_id },
       });
       newGroup.creek_name = volunteerTable.dataValues.creek_name;
       newGroup.visibility = volunteerTable.dataValues.visibility;
@@ -47,7 +47,7 @@ async function getExportData(req, res) {
       newGroup.day_end_comments = volunteerTable.dataValues.day_end_comments;
       newGroup.water_condition = volunteerTable.dataValues.water_condition;
       newGroup.date = volunteerTable.dataValues.createdAt;
-      console.log('🌵', (formattedQuery[survey.group_id]));
+      console.log('🌵', (formattedQuery[individualSurvey.group_id]));
     }
   }
   console.log('🌭', formattedQuery);
@@ -58,7 +58,7 @@ async function getExportData(req, res) {
 async function getSurveysByVolunteersID(req, res) {
   const id = req.body.group_id;
   try {
-    const allSurveys = await surveyModel.findAll({
+    const allSurveys = await Survey.findAll({
       where: {
         group_id: id,
       },
@@ -76,7 +76,7 @@ async function saveSurvey(req, res) {
   const { survey } = req.body;
   const id = req.body.group_id;
   try {
-    let result = await surveyModel.create({
+    const result = await Survey.create({
       location: survey.location,
       fish_status: survey.fish_status,
       fish_species: survey.fish_species,
