@@ -27,6 +27,10 @@ const survey = sequelizeConnection.define('survey', {
   comments: {
     type: DataTypes.TEXT(),
   },
-}, { underscored: true });
+}, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  timestamps: true,
+});
 
 module.exports = survey;

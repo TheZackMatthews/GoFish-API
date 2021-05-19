@@ -18,7 +18,11 @@ const Photo = sequelizeConnection.define('Photo', {
   comment: {
     type: DataTypes.TEXT(),
   },
-}, { underscored: true });
+}, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  timestamps: true,
+});
 
 Photo.associate = () => {
   sequelizeConnection.models.Photo.belongsTo(sequelizeConnection.models.survey, { foreignKey: 'group_id' });
