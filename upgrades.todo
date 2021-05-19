@@ -1,3 +1,9 @@
 ☐ Change savePhoto route to take an ID as parameter (PUT /survey/:id/photo)
 
-☐
+✔ Fix photo foriegn key @done (5/19/2021, 9:04:02 AM)
+
+☐ make sequelize use snake case
+
+☐ cast date better in exportData function
+
+☐ change getPhotos to be by surveyId

@@ -13,7 +13,6 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbConnectPort, {
   password: process.env.DBPASSWORD,
   dialect: 'postgres',
   logging: false,
-  underscored: true,
   pool: {
     max: 20,
     min: 0,
@@ -28,7 +27,7 @@ sequelizeConnection.authenticate('')
     Object.values(sequelizeConnection.models).forEach((model) => {
       if (typeof model.associate === 'function') model.associate();
     });
-    sequelizeConnection.sync({force: true});
+    sequelizeConnection.sync({ force: true });
   })
   .catch((err) => {
     console.error(`Error connecting to db: ${err}`);
