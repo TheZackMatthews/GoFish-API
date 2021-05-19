@@ -1,8 +1,8 @@
-const volunteerModel = require('../models/volunteers');
+const Volunteers = require('../models/volunteers');
 
 async function getVolunteers(req, res) {
   try {
-    const reports = await volunteerModel.findAll();
+    const reports = await Volunteers.findAll();
     res.status(200).json(reports);
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -12,12 +12,12 @@ async function getVolunteers(req, res) {
 }
 
 async function saveVolunteers(req, res) {
-  const volunteers = req.body;
+  const newVolunteers = req.body;
   try {
-    const result = await volunteerModel.create({
-      creek_name: volunteers.creekName,
-      team_lead: volunteers.teamLead,
-      team_members: volunteers.teamMembers,
+    const result = await Volunteers.create({
+      creek_name: newVolunteers.creekName,
+      team_lead: newVolunteers.teamLead,
+      team_members: newVolunteers.teamMembers,
       started_at: Date.now(),
     });
     res.status(201).json({
@@ -41,7 +41,7 @@ async function updateVolunteers(req, res) {
     flow_type: req.body.flowType,
     visibility: req.body.visibility,
   };
-  await volunteerModel.update(volunteersInfo, {
+  await Volunteers.update(volunteersInfo, {
     where: {
       group_id: req.body.group_id,
     },

@@ -21,10 +21,10 @@ const photo = sequelizeConnection.define('photo', {
 });
 
 photo.associate = () => {
-  photo.belongsTo(sequelizeConnection.models.survey, { foreignKey: 'id' });
-  sequelizeConnection.models.survey.hasMany(photo, {
-    foreignKey: 'id',
-    as: 'photos',
+  sequelizeConnection.models.photo.belongsTo(sequelizeConnection.models.survey, { foreignKey: 'group_id' });
+  sequelizeConnection.models.survey.hasMany(sequelizeConnection.models.photo, {
+    foreignKey: 'group_id',
+    targetKey: 'id',
   });
 };
 module.exports = photo;

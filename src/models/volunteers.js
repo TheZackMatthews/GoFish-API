@@ -59,7 +59,5 @@ volunteers.associate = () => {
   });
   sequelizeConnection.models.survey.belongsTo(volunteers, { foreignKey: 'group_id' });
 };
-// Create table if it does not exist currently
-sequelizeConnection.sync();
 
 module.exports = volunteers;
