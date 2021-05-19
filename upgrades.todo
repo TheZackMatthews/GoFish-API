@@ -2,7 +2,7 @@
 
 ✔ Fix photo foriegn key @done (5/19/2021, 9:04:02 AM)
 
-☐ make sequelize use snake case
+✔ make sequelize use snake case @done (5/19/2021, 10:38:11 AM)
 
 ☐ cast date better in exportData function
 
