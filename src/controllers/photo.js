@@ -19,12 +19,11 @@ async function savePhoto(req, res) {
 }
 
 async function getPhotos(req, res) {
-  const group_id = req.params.id;
-  console.log(group_id)
+  const groupId = req.params.id;
   try {
     const groupPhotos = await Photo.findAll({
       where: {
-        group_id,
+        group_id: groupId,
       },
     });
     res.status(200).json(groupPhotos);

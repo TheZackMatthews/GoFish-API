@@ -17,7 +17,7 @@ router.get('/getAllSurveys', getAllSurveys);
 // NOTE This might be a post request down the line if we require user have certain credentials
 router.get('/getAllVolunteers', getVolunteers);
 
-// NOTE If a user logged out and then back in, it would currently create two seperate volunteerIds.
+// NOTE If a user logged out and then back in, it would currently create two separate volunteerIds.
 router.post('/saveVolunteers', saveVolunteers);
 
 // Save visibility info and day end comment

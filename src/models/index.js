@@ -8,6 +8,7 @@ const dbUser = process.env.DBUSER;
 
 const dbConnectPort = process.env.DBCONNECTPORT;
 
+// Establish the sequelize instance we'll use in each model
 const sequelizeConnection = new Sequelize(dbName, dbUser, dbConnectPort, {
   host: process.env.DBCONNECTIONURL,
   password: process.env.DBPASSWORD,
@@ -17,17 +18,17 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbConnectPort, {
     max: 20,
     min: 0,
     acquire: 20000,
-    // idle: 600000, // Allow a connection of 10 minutes maximum, and then force them to reconnect
   },
 });
 
+// Verifies the connection
 sequelizeConnection.authenticate('')
   .then(() => {
     console.log('Database connected...');
     Object.values(sequelizeConnection.models).forEach((model) => {
       if (typeof model.associate === 'function') model.associate();
     });
-    sequelizeConnection.sync({  });
+    sequelizeConnection.sync({force: true});
   })
   .catch((err) => {
     console.error(`Error connecting to db: ${err}`);
