@@ -1,6 +1,6 @@
 # GoFish-API
 ## Summary
-This is a REST API to drive our main application, GoFish, an application to increase the accuracy and ease of data collection for the fieldworkers of Skagit Fishieries Enhancement Group.
+This is a REST API to drive our main application, GoFish, an application to increase the accuracy and ease of data collection for the fieldworkers of Skagit Fisheries Enhancement Group.
 
 This API has been deployed over Heroku, so the first request every 30 minutes takes additional time.
 ## Endpoints:
@@ -13,7 +13,7 @@ This API has been deployed over Heroku, so the first request every 30 minutes ta
 (GET) Sends all the individual survey entries
 
 - https://gofish-api.herokuapp.com/getAllVolunteers
-(GET) Sends a list of all the volunteer conditions, including who was present as well as the envionmental conditions
+(GET) Sends a list of all the volunteer conditions, including who was present as well as the environmental conditions
 
 - https://gofish-api.herokuapp.com/getSurveys
 (POST) Returns the list of surveys a particular volunteer group entered on one surveying period. Requires group_id
@@ -27,7 +27,7 @@ This API has been deployed over Heroku, so the first request every 30 minutes ta
 ### Adding data
 - https://gofish-api.herokuapp.com/saveVolunteers
 
-(POST) Initilize a new group of volunteers with a creek name, a team leader, and an array of all non-leader volunteers present. This returns a group_id needed for other requests
+(POST) Initialize a new group of volunteers with a creek name, a team leader, and an array of all non-leader volunteers present. This returns a group_id needed for other requests
 (PUT) Update the contents of this table with additional information, such as distance walked, water condition, view condition, flow type, visibility, and any comments concerning the entire day of surveying. Requires a group_id
 - https://gofish-api.herokuapp.com/saveSurvey
 

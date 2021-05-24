@@ -3,6 +3,7 @@ const { sequelizeConnection } = require('../models');
 const Survey = require('../models/survey');
 const Volunteer = require('../models/volunteers');
 const defaultResponse = require('../assets/defaultResponse.json');
+const DailySurvey = require('../models/dailySurveys');
 
 async function getAllSurveys(req, res) {
   Survey.findAll()
@@ -38,6 +39,7 @@ async function getExportData(req, res) {
       formattedQuery[individualSurvey.group_id] = { ...defaultResponse };
       const newGroup = formattedQuery[individualSurvey.group_id];
       newGroup[surveyKey] = parseInt(individualSurvey.sum, 10);
+      // eslint-disable-next-line no-await-in-loop
       const volunteerTable = await Volunteer.findOne({
         where: { group_id: individualSurvey.group_id },
       });
@@ -68,7 +70,7 @@ async function getExportData(req, res) {
   res.status(200).json(Object.values(formattedQuery));
 }
 
-// Provice group_id and get all matching surveys
+// Provide group_id and get all matching surveys
 async function getSurveysByVolunteersID(req, res) {
   const id = req.body.group_id;
   try {
@@ -85,12 +87,12 @@ async function getSurveysByVolunteersID(req, res) {
   }
 }
 
-// Recieve a new survey, save it both as a single instance and update the value of dailySurveys
+// Receive a new survey, save it both as a single instance and update the value of dailySurveys
 async function saveSurvey(req, res) {
   const { survey } = req.body;
   const id = req.body.group_id;
   try {
-    const result = await Survey.create({
+    const result = await Survey.findOrCreate({
       location: survey.location,
       fish_status: survey.fish_status,
       fish_species: survey.fish_species,
@@ -98,6 +100,15 @@ async function saveSurvey(req, res) {
       comments: survey.comments || '',
       group_id: id,
     });
+
+    const newAddition = `${survey.fish_species}_${survey.fish_status}`;
+    await DailySurvey.increment(
+      { newAddition: survey.fish_count },
+      {
+        where: { group_id: id },
+      },
+    );
+
     res.status(201).json({ id: result.id });
   } catch (err) {
     // eslint-disable-next-line no-console
