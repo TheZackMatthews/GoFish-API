@@ -18,56 +18,15 @@ async function getAllSurveys(req, res) {
 }
 
 async function getExportData(req, res) {
-  const formattedQuery = {};
-  const rawQuery = await sequelizeConnection.query(
-    'SELECT surveys.group_id, fish_species, fish_status, SUM (fish_count) FROM surveys GROUP BY surveys.group_id, fish_species, fish_status',
-    {
-      raw: true,
-      type: QueryTypes.SELECT,
-    },
-  );
-  // eslint-disable-next-line no-restricted-syntax
-  for (const individualSurvey of rawQuery) {
-    const surveyKey = (individualSurvey.fish_status === 'live')
-      ? individualSurvey.fish_species
-      : `${individualSurvey.fish_species}_${individualSurvey.fish_status}`;
-    // If the groupId is already present, push it to the corresponding array
-    if (formattedQuery[individualSurvey.group_id]) {
-      formattedQuery[individualSurvey.group_id][surveyKey] += parseInt(individualSurvey.sum, 10);
-    } else {
-      // If the group_id is not present, add it as a key value pair with the current survey
-      formattedQuery[individualSurvey.group_id] = { ...defaultResponse };
-      const newGroup = formattedQuery[individualSurvey.group_id];
-      newGroup[surveyKey] = parseInt(individualSurvey.sum, 10);
-      // eslint-disable-next-line no-await-in-loop
-      const volunteerTable = await Volunteer.findOne({
-        where: { group_id: individualSurvey.group_id },
-      });
-      newGroup.creek_name = volunteerTable.dataValues.creek_name;
-      newGroup.visibility = volunteerTable.dataValues.visibility;
-      newGroup.flow_type = volunteerTable.dataValues.flow_type;
-      newGroup.view_condition = volunteerTable.dataValues.view_condition;
-      newGroup.day_end_comments = volunteerTable.dataValues.day_end_comments;
-      newGroup.water_condition = volunteerTable.dataValues.water_condition;
-      newGroup.created_at = volunteerTable.dataValues.created_at.toLocaleDateString(
-        'en-gb',
-        {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        },
-      );
-      newGroup.updated_at = volunteerTable.dataValues.updated_at.toLocaleDateString(
-        'en-gb',
-        {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        },
-      );
-    }
-  }
-  res.status(200).json(Object.values(formattedQuery));
+  DailySurvey.findAll()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      res.status(500).json();
+    });
 }
 
 // Provide group_id and get all matching surveys
@@ -92,7 +51,7 @@ async function saveSurvey(req, res) {
   const { survey } = req.body;
   const id = req.body.group_id;
   try {
-    const result = await Survey.findOrCreate({
+    const result = await Survey.create({
       location: survey.location,
       fish_status: survey.fish_status,
       fish_species: survey.fish_species,
@@ -101,14 +60,21 @@ async function saveSurvey(req, res) {
       group_id: id,
     });
 
-    const newAddition = `${survey.fish_species}_${survey.fish_status}`;
-    await DailySurvey.increment(
-      { newAddition: survey.fish_count },
-      {
-        where: { group_id: id },
-      },
-    );
+    const aggregateTable = await DailySurvey.findOrCreate({
+      where: { group_id: id },
+    });
 
+    const whichField = `${survey.fish_species}_${survey.fish_status}`;
+    await aggregateTable.increment(
+      whichField,
+      { by: survey.fish_count, where: { group_id: id } },
+    );
+    if (survey.comments) {
+      await aggregateTable.update(
+        { individual_survey_comments: sequelizeConnection.fn('array_append', sequelizeConnection.col('individual_survey_comments'), survey.comments) },
+        { where: { group_id: id } },
+      );
+    }
     res.status(201).json({ id: result.id });
   } catch (err) {
     // eslint-disable-next-line no-console
