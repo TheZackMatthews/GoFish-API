@@ -20,15 +20,31 @@ const DailySurveys = sequelizeConnection.define('dailySurveys', {
   },
   visibility: {
     type: DataTypes.INTEGER(),
+    validate: {
+      min: 1,
+      max: 6,
+    },
   },
   flow_type: {
     type: DataTypes.INTEGER(),
+    validate: {
+      min: 1,
+      max: 5,
+    },
   },
   view_condition: {
     type: DataTypes.INTEGER(),
+    validate: {
+      min: 30,
+      max: 38,
+    },
   },
   water_condition: {
     type: DataTypes.INTEGER(),
+    validate: {
+      min: 20,
+      max: 29,
+    },
   },
   coho: {
     type: DataTypes.INTEGER(),
@@ -131,8 +147,7 @@ const DailySurveys = sequelizeConnection.define('dailySurveys', {
 DailySurveys.associate = () => {
   sequelizeConnection.models.dailySurveys.belongsTo(VolunteerModel, { foreignKey: 'group_id' });
   VolunteerModel.hasOne(sequelizeConnection.models.dailySurveys, {
-    foreignKey: 'group_id',
-    targetKey: 'id',
+    foreignKey: 'group_id'
   });
 };
 
