@@ -59,7 +59,7 @@ async function saveSurvey(req, res) {
       comments: survey.comments || '',
       group_id: id,
     });
-
+console.log('test')
     const aggregateTable = await DailySurvey.findOrCreate({
       where: { group_id: id },
     });
