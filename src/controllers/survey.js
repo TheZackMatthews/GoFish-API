@@ -79,7 +79,7 @@ async function saveSurvey(req, res) {
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('saveSurvey failed:', err);
-    res.sendStatus(500).json(err.message);
+    res.status(500).json(err.message);
   }
 }
 
