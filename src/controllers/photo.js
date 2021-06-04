@@ -34,6 +34,17 @@ async function getPhotos(req, res) {
   }
 }
 
+async function getAllPhotos(req, res) {
+  try {
+    const groupPhotos = await Photo.findAll();
+    res.status(200).json(groupPhotos);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('getPhotosByCategory failed:', err);
+    res.status(500).json();
+  }
+}
+
 async function getPhotosByCategory(req, res) {
   const reasonForSubmission = req.params.category;
   try {
@@ -52,5 +63,6 @@ async function getPhotosByCategory(req, res) {
 module.exports = {
   savePhoto,
   getPhotos,
+  getAllPhotos,
   getPhotosByCategory,
 };

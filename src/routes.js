@@ -6,7 +6,7 @@ const {
   getSurveysByVolunteersID,
   saveSurvey,
 } = require('./controllers/survey');
-const { savePhoto, getPhotos, getPhotosByCategory } = require('./controllers/photo');
+const { savePhoto, getPhotos, getAllPhotos, getPhotosByCategory } = require('./controllers/photo');
 
 // NOTE This might be a post request down the line if we require user have certain credentials
 // Get all surveys a group of fieldworkers submitted in a given session
@@ -33,6 +33,8 @@ router.post('/getSurveys', getSurveysByVolunteersID);
 router.post('/savePhoto', savePhoto);
 
 // Get all photos
+
+router.get('/allPhotos', getAllPhotos);
 router.get('/getPhotos/id/:id', getPhotos);
 
 // Get photos from category: 'help identifying', 'outreach', or 'other'

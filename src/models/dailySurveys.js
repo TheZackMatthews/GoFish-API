@@ -142,7 +142,6 @@ const DailySurveys = sequelizeConnection.define('dailySurveys', {
     defaultValue: 0,
   },
 });
-console.log(sequelizeConnection.models)
 DailySurveys.associate = () => {
   sequelizeConnection.models.dailySurveys.belongsTo(VolunteerModel, { foreignKey: 'group_id' });
   VolunteerModel.hasOne(sequelizeConnection.models.dailySurveys, {

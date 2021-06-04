@@ -32,7 +32,6 @@ async function saveVolunteers(req, res) {
 }
 
 async function updateVolunteers(req, res) {
-  console.log(req.body)
   const volunteersInfo = {
     ended_at: Date.now(),
     distance_walked: req.body.distanceWalked,
