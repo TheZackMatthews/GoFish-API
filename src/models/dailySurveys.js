@@ -4,7 +4,6 @@ const VolunteerModel = require('./volunteers');
 const DailySurveys = sequelizeConnection.define('dailySurveys', {
   date: {
     type: DataTypes.DATE(),
-    allowNull: false,
   },
   individual_survey_comments: {
     type: DataTypes.ARRAY(
@@ -143,7 +142,7 @@ const DailySurveys = sequelizeConnection.define('dailySurveys', {
     defaultValue: 0,
   },
 });
-
+console.log(sequelizeConnection.models)
 DailySurveys.associate = () => {
   sequelizeConnection.models.dailySurveys.belongsTo(VolunteerModel, { foreignKey: 'group_id' });
   VolunteerModel.hasOne(sequelizeConnection.models.dailySurveys, {

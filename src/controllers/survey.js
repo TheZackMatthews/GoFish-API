@@ -59,22 +59,23 @@ async function saveSurvey(req, res) {
       comments: survey.comments || '',
       group_id: id,
     });
-console.log('test')
-    const aggregateTable = await DailySurvey.findOrCreate({
-      where: { group_id: id },
-    });
 
-    const whichField = `${survey.fish_species}_${survey.fish_status}`;
-    await aggregateTable.increment(
-      whichField,
-      { by: survey.fish_count, where: { group_id: id } },
-    );
-    if (survey.comments) {
-      await aggregateTable.update(
-        { individual_survey_comments: sequelizeConnection.fn('array_append', sequelizeConnection.col('individual_survey_comments'), survey.comments) },
-        { where: { group_id: id } },
-      );
-    }
+    // const aggregateTable = await DailySurvey.findOrCreate({
+    //   where: { group_id: id }
+    // });
+
+    // console.log(aggregateTable)
+    // const whichField = `${survey.fish_species}_${survey.fish_status}`;
+    // await aggregateTable.increment(
+    //   whichField,
+    //   { by: survey.fish_count, where: { group_id: id } },
+    // );
+    // if (survey.comments) {
+    //   await aggregateTable.update(
+    //     { individual_survey_comments: sequelizeConnection.fn('array_append', sequelizeConnection.col('individual_survey_comments'), survey.comments) },
+    //     { where: { group_id: id } },
+    //   );
+    // }
     res.status(201).json({ id: result.id });
   } catch (err) {
     // eslint-disable-next-line no-console
