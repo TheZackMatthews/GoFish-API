@@ -10,6 +10,7 @@ async function savePhoto(req, res) {
       comment: newPhoto.comment,
       group_id: id,
     });
+    console.log(savedPhoto)
     res.status(201).json(savedPhoto);
   } catch (err) {
     // eslint-disable-next-line no-console

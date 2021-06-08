@@ -18,6 +18,8 @@ const Photo = sequelizeConnection.define('photo', {
   comment: {
     type: DataTypes.TEXT(),
   },
+  height: DataTypes.NUMBER,
+  width: DataTypes.NUMBER,
 }, {
   createdAt: 'created_at',
   updatedAt: 'updated_at',
