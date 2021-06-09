@@ -9,35 +9,20 @@ const {
 const { savePhoto, getPhotos, getAllPhotos, getPhotosByCategory } = require('./controllers/photo');
 
 // NOTE This might be a post request down the line if we require user have certain credentials
-// Get all surveys a group of fieldworkers submitted in a given session
-router.get('/getExportData', getExportData);
 
-router.get('/getAllSurveys', getAllSurveys);
+router.get('/exportdata', getExportData);
 
-// NOTE This might be a post request down the line if we require user have certain credentials
-router.get('/getAllVolunteers', getVolunteers);
+router.get('/visit', getVolunteers);
+router.post('/visit', saveVolunteers);
+router.put('/visit', updateVolunteers);
 
-// NOTE If a user logged out and then back in, it would currently create two separate volunteerIds.
-router.post('/saveVolunteers', saveVolunteers);
+router.post('/survey', saveSurvey);
+router.get('/survey', getAllSurveys);
+router.post('/survey', getSurveysByVolunteersID);
 
-// Save visibility info and day end comment
-router.put('/saveVolunteers', updateVolunteers);
-
-// Save an individual survey
-router.post('/saveSurvey', saveSurvey);
-
-// Provide a volunteerId and get all the surveys they submitted
-router.post('/getSurveys', getSurveysByVolunteersID);
-
-// Save an image during a survey submission
-router.post('/savePhoto', savePhoto);
-
-// Get all photos
-
-router.get('/allPhotos', getAllPhotos);
-router.get('/getPhotos/id/:id', getPhotos);
-
-// Get photos from category: 'help identifying', 'outreach', or 'other'
-router.post('/getPhotos:category', getPhotosByCategory);
+router.post('/photo', savePhoto);
+router.get('/photo', getAllPhotos);
+router.get('/photo/id/:id', getPhotos);
+router.get('/photos/:category', getPhotosByCategory);
 
 module.exports = router;
