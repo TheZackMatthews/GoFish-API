@@ -1,5 +1,5 @@
 const { sequelizeConnection, DataTypes } = require('./index.js');
-const VolunteerModel = require('./volunteers');
+const Visit = require('./visit');
 
 const DailySurveys = sequelizeConnection.define('dailySurveys', {
   date: {
@@ -143,8 +143,8 @@ const DailySurveys = sequelizeConnection.define('dailySurveys', {
   },
 });
 DailySurveys.associate = () => {
-  sequelizeConnection.models.dailySurveys.belongsTo(VolunteerModel, { foreignKey: 'group_id' });
-  VolunteerModel.hasOne(sequelizeConnection.models.dailySurveys, {
+  sequelizeConnection.models.dailySurveys.belongsTo(Visit, { foreignKey: 'group_id' });
+  Visit.hasOne(sequelizeConnection.models.dailySurveys, {
     foreignKey: 'group_id'
   });
 };

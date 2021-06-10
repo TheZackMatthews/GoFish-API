@@ -1,6 +1,6 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
 
-const volunteers = sequelizeConnection.define('volunteers', {
+const visit = sequelizeConnection.define('visit', {
   group_id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -56,12 +56,12 @@ const volunteers = sequelizeConnection.define('volunteers', {
 // any value to adding start location? could be useful for
 // the front end at least
 
-volunteers.associate = () => {
-  sequelizeConnection.models.survey.belongsTo(volunteers, { foreignKey: 'group_id' });
-  volunteers.hasMany(sequelizeConnection.models.survey, {
+visit.associate = () => {
+  sequelizeConnection.models.survey.belongsTo(visit, { foreignKey: 'group_id' });
+  visit.hasMany(sequelizeConnection.models.survey, {
     foreignKey: 'group_id',
     targetKey: 'id',
   });
 };
 
-module.exports = volunteers;
+module.exports = visit;

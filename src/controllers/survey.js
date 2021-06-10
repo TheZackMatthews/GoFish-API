@@ -1,7 +1,7 @@
 const { QueryTypes } = require('sequelize');
 const { sequelizeConnection } = require('../models');
 const Survey = require('../models/survey');
-const Volunteer = require('../models/volunteers');
+const Visit = require('../models/visit');
 const defaultResponse = require('../assets/defaultResponse.json');
 const DailySurvey = require('../models/dailySurveys');
 

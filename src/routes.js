@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { updateVolunteers, getVolunteers, saveVolunteers } = require('./controllers/volunteers');
+const { updateVolunteers, getVolunteers, saveVolunteers } = require('./controllers/visit');
 const {
   getExportData,
   getAllSurveys,
