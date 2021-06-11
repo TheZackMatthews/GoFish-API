@@ -23,7 +23,8 @@ const user = sequelizeConnection.define('user', {
   total_visits: {
     type: DataTypes.NUMBER,
     defaultValue: 0,
-  }
+  },
+  org_id: DataTypes.UUID,
 }, {
   createdAt: 'created_at',
   updatedAt: 'updated_at',

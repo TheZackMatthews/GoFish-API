@@ -28,6 +28,15 @@ exports.getUser = async (req, res) => {
   }
 }
 
+exports.getAllUsers = async (req, res) => {
+  try {
+    const result = await User.findAll();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
 exports.updateUser = async (req, res) => {
   const { uid, update } = req.body;
   console.log(update)

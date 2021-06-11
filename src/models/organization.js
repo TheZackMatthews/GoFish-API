@@ -14,6 +14,7 @@ const organization = sequelizeConnection.define('organization', {
   user_id: {
     type: [Sequelize.UUID],
     foreignKey: true,
+    allowNull: true,
   },
 }, {
   createdAt: 'created_at',
@@ -22,14 +23,14 @@ const organization = sequelizeConnection.define('organization', {
 });
 
 organization.associate = () => {
-  sequelizeConnection.models.user.belongsTo(organization, {
-    foreignKey: 'org_id',
-    allowNull: true,
-  });
   organization.hasMany(sequelizeConnection.models.user, {
     foreignKey: 'org_id',
-    target: 'user_id', 
-    allowNull: true,
+    constraints: false,
+  });
+  sequelizeConnection.models.user.belongsTo(organization, {
+    constraints: false,
+    targetKey: 'org_id',
+    foreignKey: 'org_id',
   });
 };
 

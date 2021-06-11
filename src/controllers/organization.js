@@ -14,6 +14,7 @@ exports.getAllOrgs = async (req, res) => {
 // add error handling for adding the same person
 exports.addUserToOrg = async (req, res) => {
   const { user_id, org_id } = req.body;
+  
   try {
     const userResult = await User.update({
       org_id
@@ -30,6 +31,16 @@ exports.addUserToOrg = async (req, res) => {
     }
     orgResult = await orgResult.save();
     res.status(200).json(orgResult)
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
+exports.newOrg = async (req, res) => {
+  const { name } = req.body;
+  try {
+    const result = await Organization.create({name})
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error.message);
   }
