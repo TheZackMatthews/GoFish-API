@@ -1,5 +1,4 @@
-const { QueryTypes } = require('sequelize');
-const { sequelizeConnection } = require('../models');
+const organization = require('../models/organization');
 const User = require('../models/user');
 
 exports.newUser = async (req, res) => {
@@ -9,17 +8,23 @@ exports.newUser = async (req, res) => {
     const result = await User.create(newUser);
     res.status(200).json(result);
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(500).json(error.message);
   }
 }
 
 exports.getUser = async (req, res) => {
   const { uid } = req.params;
   try {
-    const result = await User.findOne({ where: { uid } })
+    const result = await User.findOne({
+      where: { uid },
+      include: [{
+        model: organization,
+        attributes: ['name', 'org_id']
+      }]
+    })
     res.status(200).json(result);
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(500).json(error.message);
   }
 }
 
@@ -35,6 +40,6 @@ exports.updateUser = async (req, res) => {
       })
     res.status(200).json(result[1][0]);
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(500).json(error.message);
   }
 }
