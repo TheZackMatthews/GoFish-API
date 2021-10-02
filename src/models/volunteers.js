@@ -1,9 +1,7 @@
 const { sequelizeConnection, Sequelize, DataTypes } = require('./index.js');
-const survey = require('./survey');
-const dailySurveys = require('./dailySurveys');
 
-const newVolunteers = sequelizeConnection.define('newVolunteers', {
-  volunteersId: {
+const volunteers = sequelizeConnection.define('volunteers', {
+  group_id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
     allowNull: false,
@@ -25,7 +23,7 @@ const newVolunteers = sequelizeConnection.define('newVolunteers', {
   },
   started_at: {
     type: DataTypes.DATE(),
-    default: new Date(),
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
   ended_at: {
     type: DataTypes.DATE(),
@@ -36,25 +34,34 @@ const newVolunteers = sequelizeConnection.define('newVolunteers', {
   },
   water_condition: {
     type: DataTypes.INTEGER(),
-    allowNull: false,
   },
   view_condition: {
     type: DataTypes.INTEGER(),
-    allowNull: false,
   },
+  day_end_comments: {
+    type: DataTypes.TEXT(),
+  },
+  flow_type: {
+    type: DataTypes.INTEGER(),
+  },
+  visibility: {
+    type: DataTypes.INTEGER(),
+  },
+}, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  timestamps: true,
 });
 
-newVolunteers.hasMany(survey, {
-  foreignKey: 'volunteersId',
-  as: 'surveys',
-});
+// any value to adding start location? could be useful for
+// the front end at least
 
-newVolunteers.hasOne(dailySurveys, {
-  foreignKey: 'volunteersId',
-  as: 'daily_surveys',
-});
-// Create table if it does not exist currently
-// FIXME "force: true" empties our table each time we run the server
-sequelizeConnection.sync({ force: true });
+volunteers.associate = () => {
+  sequelizeConnection.models.survey.belongsTo(volunteers, { foreignKey: 'group_id' });
+  volunteers.hasMany(sequelizeConnection.models.survey, {
+    foreignKey: 'group_id',
+    targetKey: 'id',
+  });
+};
 
-module.exports = newVolunteers;
+module.exports = volunteers;

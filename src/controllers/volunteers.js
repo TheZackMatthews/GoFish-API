@@ -1,8 +1,8 @@
-const volunteers = require('../models/volunteers');
+const Volunteers = require('../models/volunteers');
 
 async function getVolunteers(req, res) {
   try {
-    const reports = await volunteers.findAll();
+    const reports = await Volunteers.findAll();
     res.status(200).json(reports);
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -12,19 +12,17 @@ async function getVolunteers(req, res) {
 }
 
 async function saveVolunteers(req, res) {
-  const newVolunteers = req.body.volunteers;
+  const newVolunteers = req.body;
   try {
-    volunteers.create({
-      creek_name: newVolunteers.creek_name,
-      team_lead: newVolunteers.team_lead,
-      team_members: newVolunteers.team_members,
-      ended_at: newVolunteers.ended_at,
-      distance_walked: newVolunteers.distance_walked,
-      water_condition: newVolunteers.water_condition,
-      view_condition: newVolunteers.view_condition,
+    const result = await Volunteers.create({
+      creek_name: newVolunteers.creekName,
+      team_lead: newVolunteers.teamLead,
+      team_members: newVolunteers.teamMembers,
+      started_at: Date.now(),
     });
     res.status(201).json({
-      volunteersId: newVolunteers.id,
+      group_id: result.group_id,
+      startedAt: result.started_at,
     });
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -32,7 +30,32 @@ async function saveVolunteers(req, res) {
     res.sendStatus(500);
   }
 }
+
+async function updateVolunteers(req, res) {
+  const volunteersInfo = {
+    ended_at: Date.now(),
+    distance_walked: req.body.distanceWalked,
+    water_condition: req.body.waterCondition,
+    view_condition: req.body.viewCondition,
+    day_end_comments: req.body.dayEndComments,
+    flow_type: req.body.flowType,
+    visibility: req.body.visibility,
+  };
+  await Volunteers.update(volunteersInfo, {
+    where: {
+      group_id: req.body.group_id,
+    },
+  })
+    .then(res.sendStatus(200))
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      res.sendStatus(500);
+    });
+}
+
 module.exports = {
   getVolunteers,
   saveVolunteers,
+  updateVolunteers,
 };
