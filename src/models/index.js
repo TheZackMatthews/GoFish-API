@@ -8,7 +8,6 @@ const dbUser = process.env.DBUSER;
 
 const dbConnectPort = process.env.DBCONNECTPORT;
 
-// Establish the sequelize instance we'll use in each model
 const sequelizeConnection = new Sequelize(dbName, dbUser, dbConnectPort, {
   host: process.env.DBCONNECTIONURL,
   password: process.env.DBPASSWORD,
